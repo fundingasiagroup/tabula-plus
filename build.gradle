@@ -34,6 +34,11 @@ task copyJarsToLib (type: Copy) {
     into toDir
 }
 
+task execute(type:JavaExec) {
+    main = 'com.fs.example.ExamplePDFParser'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
 jar {
     // make jar executable: see http://stackoverflow.com/questions/21721119/creating-runnable-jar-with-gradle
     manifest {
