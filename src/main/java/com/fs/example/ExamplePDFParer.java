@@ -34,7 +34,9 @@ public class ExamplePDFParer
         NormalizedTable[] tables = pdfParser.parse("sample-tables.pdf");
         for (NormalizedTable table : tables)
         {
+            System.out.println(table.getTableName());
             System.out.println(table.toString());
+            System.out.println("\n");
         }
     }
 }

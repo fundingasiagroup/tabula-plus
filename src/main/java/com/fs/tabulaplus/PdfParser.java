@@ -125,6 +125,7 @@ public class PdfParser {
             {
                 // create a normalized table with the data extracted from pages
                 NormalizedTable normalizedTable = new NormalizedTable(pages, NormalizedTable.TEXT_ALGORITHM);
+                normalizedTable.setTableName(section.getName());
                 return normalizedTable;
             }
             else

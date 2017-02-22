@@ -27,6 +27,8 @@ public class NormalizedTable {
     public static final int SPREADSHEET_ALGORITHM = 1;
     public static final int AUTO_ALGORITHM = 2;
 
+    private String tableName;
+
     protected List<NormalizedRow> rows;
     private int algorithm;
 
@@ -93,5 +95,15 @@ public class NormalizedTable {
             resultString += ('\n' + row.toString());
         }
         return resultString;
+    }
+
+    public void setTableName(String tableName)
+    {
+        this.tableName = tableName;
+    }
+
+    public String getTableName()
+    {
+        return this.tableName;
     }
 }
