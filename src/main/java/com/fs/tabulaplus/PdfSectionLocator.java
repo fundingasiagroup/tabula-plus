@@ -1,4 +1,4 @@
-package com.fundingsocieties.skeletalpdfparser;
+package com.fs.tabulaplus;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.util.PDFTextStripper;

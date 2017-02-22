@@ -1,4 +1,4 @@
-package com.fundingsocieties.skeletalpdfparser;
+package com.fs.tabulaplus;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,12 +29,9 @@ public class NormalizedTable {
 
     protected List<NormalizedRow> rows;
     private int algorithm;
-    private Function<List<NormalizedRow>, List<List<String>>> transformFunc;
 
-    public NormalizedTable(List<Page> pageAreas, int algorithm,
-                           Function<List<NormalizedRow>, List<List<String>>> transformFunc) {
+    public NormalizedTable(List<Page> pageAreas, int algorithm) {
         this.algorithm = algorithm;
-        this.transformFunc = transformFunc;
         rows = new ArrayList<>();
         process(pageAreas);
     }
@@ -82,26 +79,14 @@ public class NormalizedTable {
         }
     }
 
-    /**
-     * Apply the Transform function to transform data in the table
-     * The reason is that sometimes tabula doesn't correctly extract data for a table, for example,
-     * a piece of data, which is supposed to belong to a column, but is misplaced to another column.
-     * We need to apply post processing to correct corrupted data
-     */
-    public List<List<String>> postProcess() {
-        List<List<String>> finalRows = new ArrayList<>();
-
-        try
+    @Override
+    public String toString()
+    {
+        String resultString = "";
+        for (NormalizedRow row : this.rows)
         {
-            finalRows = transformFunc != null ?
-                    transformFunc.apply(getRows()) : getRows().stream().map(row ->
-                    row.texts).collect(Collectors.toList());
+            resultString += ('\n' + row.toString());
         }
-        catch (Exception e)
-        {
-            logger.error("Exception: ", e);
-        }
-
-        return finalRows;
+        return resultString;
     }
 }

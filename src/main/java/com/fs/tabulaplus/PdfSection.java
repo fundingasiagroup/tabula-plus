@@ -1,4 +1,4 @@
-package com.fundingsocieties.skeletalpdfparser;
+package com.fs.tabulaplus;
 
 import java.util.Arrays;
 import java.util.List;

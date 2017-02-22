@@ -1,6 +1,7 @@
 build/
 
-idea/
+.idea/
+.gradle/
 
 # MacOS
 .DS_Store
