@@ -34,14 +34,14 @@ public class PdfParser {
     /**
      * The root section that contains other section
      */
-    private PdfSection rootPdfSection;
+    private PdfSection[] pdfSections;
 
     /**
      * Constructor
      * @throws IOException
      */
-    public PdfParser(PdfSection rootPdfSection) throws IOException {
-        this.rootPdfSection = rootPdfSection;
+    public PdfParser(PdfSection[] pdfSections) throws IOException {
+        this.pdfSections = pdfSections;
     }
 
     /**
@@ -51,17 +51,17 @@ public class PdfParser {
      * @throws IOException
      * @throws CryptographyException
      */
-    public String parse(String pdfFile) throws IOException, CryptographyException {
+    public NormalizedTable[] parse(String pdfFile) throws IOException, CryptographyException {
         if (pdfFile.contains(".pdf"))
             return parse(new File(pdfFile));
-        return "{}";
+        return null;
     }
 
-    public String parse(File pdfFile) throws IOException, CryptographyException {
+    public NormalizedTable[] parse(File pdfFile) throws IOException, CryptographyException {
         return parse(new FileInputStream(pdfFile));
     }
 
-    public String parse(InputStream pdfFile) throws IOException, CryptographyException {
+    public NormalizedTable[] parse(InputStream pdfFile) throws IOException, CryptographyException {
         PDDocument document = PDDocument.load(pdfFile);
         try {
             return parse(document);
@@ -71,21 +71,30 @@ public class PdfParser {
         }
     }
 
-    public String parse(PDDocument document) throws IOException, CryptographyException {
+    public NormalizedTable[] parse(PDDocument document) throws IOException, CryptographyException {
         if (document.isEncrypted()) {
             document.decrypt("");
         }
         ObjectExtractor oe = new ObjectExtractor(document);
-        try {
-            NormalizedTable resultTable = extractData(document, oe, rootPdfSection);
-            return resultTable.toString();
-        } catch (Exception e) {
-            logger.info("Exception: ", e);
-            return "";
-        } finally {
-            document.close();
-            oe.close();
+        List<NormalizedTable> tables = new ArrayList<>();
+        for (PdfSection section : this.pdfSections)
+        {
+            try {
+                NormalizedTable resultTable = extractData(document, oe, section);
+                tables.add(resultTable);
+            } catch (Exception e) {
+                logger.info("Exception: ", e);
+            }
         }
+        document.close();
+        oe.close();
+
+        NormalizedTable[] normalizedTables = new NormalizedTable[tables.size()];
+        for (int i=0; i<tables.size(); i++)
+        {
+            normalizedTables[i] = tables.get(i);
+        }
+        return normalizedTables;
     }
 
     /**
@@ -121,13 +130,13 @@ public class PdfParser {
             else
             {
                 logger.info(section.getName() + " does not exist!");
-                return null;
+                return new NormalizedTable();
             }
         }
         else
         {
             logger.info(section.getName() + " does not exist!");
-            return null;
+            return new NormalizedTable();
         }
     }
 }

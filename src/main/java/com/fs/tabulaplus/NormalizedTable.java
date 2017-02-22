@@ -30,6 +30,11 @@ public class NormalizedTable {
     protected List<NormalizedRow> rows;
     private int algorithm;
 
+    public NormalizedTable()
+    {
+        rows = new ArrayList<>();
+    }
+
     public NormalizedTable(List<Page> pageAreas, int algorithm) {
         this.algorithm = algorithm;
         rows = new ArrayList<>();
