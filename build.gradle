@@ -1,0 +1,49 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+
+group = 'com.fs.tabulaplus'
+version = '1.1'
+
+description = """dateUtils"""
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    jcenter()
+    mavenCentral()
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots/"
+    }
+}
+dependencies {
+    // https://mvnrepository.com/artifact/technology.tabula/tabula
+    compile group: 'technology.tabula', name: 'tabula', version: '0.9.1'
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+}
+
+// copy dependency jars to build/libs/dependency-jars 
+task copyJarsToLib (type: Copy) {
+    def toDir = "build/libs/dependency-jars"
+
+    // create directories, if not already done:
+    file(toDir).mkdirs()
+
+    // copy jars to lib folder:
+    from configurations.compile
+    into toDir
+}
+
+jar {
+    // make jar executable: see http://stackoverflow.com/questions/21721119/creating-runnable-jar-with-gradle
+    manifest {
+        attributes (
+                // 'Main-Class': 'com.fundingsocieties.pdfparser.BICheckingParser',
+                // add classpath to Manifest; see http://stackoverflow.com/questions/30087427/add-classpath-in-manifest-file-of-jar-in-gradle
+                "Class-Path": '. dependency-jars/' + configurations.compile.collect { it.getName() }.join(' dependency-jars/')
+        )
+    }
+}
+
+// always call copyJarsToLib when building jars:
+jar.dependsOn copyJarsToLib
