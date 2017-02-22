@@ -27,7 +27,7 @@ public class NormalizedRow {
         if (texts == null) {
             return "";
         }
-        return String.format("NormalizedRow[%s]", String.join("  |  ", texts));
+        return String.format("%s", String.join("  |  ", texts));
     }
 
     public String toTabularString() {

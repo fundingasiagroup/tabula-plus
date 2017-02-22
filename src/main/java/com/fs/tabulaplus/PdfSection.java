@@ -17,15 +17,15 @@ public class PdfSection {
     public static final int HORIZONTAL_TABLE = 0;
     public static final int VERTICAL_TABLE = 1;
 
-    private final String sectionName;
-    private final String topIdentifier;
-    private final String[] bottomIdentifiers;
-    private final String leftIdentifier;
-    private final String rightIdentifier;
-    private final boolean topIncluded;
-    private final boolean leftIncluded;
-    private final boolean bottomIncluded;
-    private final boolean rightIncluded;
+    private String sectionName;
+    private String topIdentifier;
+    private String[] bottomIdentifiers;
+    private String leftIdentifier;
+    private String rightIdentifier;
+    private boolean topIncluded;
+    private boolean leftIncluded;
+    private boolean bottomIncluded;
+    private boolean rightIncluded;
 
     /**
      * A customized top margin of pages that contain the section.
@@ -33,7 +33,7 @@ public class PdfSection {
      * When we don't want the page headers to interfere the parsing result, we set the customTopMargin to be
      * bigger than the real top margin.
      */
-    private final float customTopMargin;
+    private float customTopMargin;
 
     /**
      * The bottom margin for pages that contain the section.
@@ -41,24 +41,29 @@ public class PdfSection {
      * When we don't want the page footer to interfere the parsing result, we set the customBottomMargin to be
      * bigger than the real bottom margin.
      */
-    private final float customBottomMargin;
+    private float customBottomMargin;
 
     /**
      * tableType is an integer. 0 represents horizontal table, and 1 represents vertical table
      */
-    private final Integer tableType;
+    private Integer tableType;
 
     /**
      * A section can have multiple child sections. For example, the root section (PDF File section) can have multiple
      * child sections.
      */
-    private final List<PdfSection> childSections;
+    private List<PdfSection> childSections;
 
-    public PdfSection(String name,
+    public PdfSection(String sectionName)
+    {
+        this.sectionName = sectionName;
+    }
+
+    public PdfSection(String sectionName,
                       String top, String left, String[] bottoms, String right,
                       boolean topIncluded, boolean leftIncluded, boolean bottomIncluded, boolean rightIncluded,
                       float topMargin, float bottomMargin, Integer tableType, List<PdfSection> children) {
-        this.sectionName = name;
+        this.sectionName = sectionName;
         this.topIdentifier = top;
         this.bottomIdentifiers = bottoms;
         this.leftIdentifier = left;
@@ -86,16 +91,35 @@ public class PdfSection {
         return topIdentifier;
     }
 
+    public void setTopIdentifier(String topId) {
+        this.topIdentifier = topId;
+    }
+
     public String[] getBottomIdentifiers() {
         return bottomIdentifiers;
+    }
+
+    public void setBottomIdentifiers(String[] bottomIds)
+    {
+        this.bottomIdentifiers = bottomIds;
     }
 
     public String getLeftIdentifier() {
         return leftIdentifier;
     }
 
+    public void setLeftIdentifier(String leftId)
+    {
+        this.leftIdentifier = leftId;
+    }
+
     public String getRightIdentifier() {
         return rightIdentifier;
+    }
+
+    public void setRightIdentifier(String rightId)
+    {
+        this.rightIdentifier = rightId;
     }
 
     public List<PdfSection> getChildSections() {
@@ -106,16 +130,36 @@ public class PdfSection {
         return topIncluded;
     }
 
+    public void setTopIncluded(boolean topIncluded)
+    {
+        this.topIncluded = topIncluded;
+    }
+
     public boolean isLeftIncluded() {
         return leftIncluded;
+    }
+
+    public void setLeftIncluded(boolean leftIncluded)
+    {
+        this.leftIncluded = leftIncluded;
     }
 
     public boolean isBottomIncluded() {
         return bottomIncluded;
     }
 
+    public void setBottomIncluded(boolean bottomIncluded)
+    {
+        this.bottomIncluded = bottomIncluded;
+    }
+
     public boolean isRightIncluded() {
         return rightIncluded;
+    }
+
+    public void setRightIncluded(boolean rightIncluded)
+    {
+        this.rightIncluded = rightIncluded;
     }
 
     public float getCustomTopMargin() {

@@ -105,7 +105,7 @@ public class PdfParser {
             PdfSectionLocator sectionLocator = new PdfSectionLocator(oe, section);
             List<Page> pages = null;
             try {
-                pages = sectionLocator.locateSection(document, oe.extract(0));
+                pages = sectionLocator.locateSection(document, oe.extract(1));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             } catch (Exception e) { // catch all other exceptions
