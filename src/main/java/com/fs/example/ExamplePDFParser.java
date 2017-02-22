@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * Created by thomas_nguyen on 2/23/17.
  */
-public class ExamplePDFParer
+public class ExamplePDFParser
 {
     public static void main(String[] args) throws IOException, CryptographyException
     {
