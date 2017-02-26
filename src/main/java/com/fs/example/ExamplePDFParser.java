@@ -15,14 +15,16 @@ public class ExamplePDFParser
     public static void main(String[] args) throws IOException, CryptographyException
     {
         PdfSection section_1 = new PdfSection("Table 7");
-        section_1.setTopIdentifier("Table 7:");
+        String[] topIdentifiers_1 = {"Table 7:"};
+        section_1.setTopIdentifiers(topIdentifiers_1);
         section_1.setTopIncluded(false);
         String[] bottomIdentifiers_1 = {"Table 8:"};
         section_1.setBottomIdentifiers(bottomIdentifiers_1);
         section_1.setBottomIncluded(false);
 
         PdfSection section_2 = new PdfSection("Table 10");
-        section_2.setTopIdentifier("layout problems)");
+        String[] topIdentifiers_2 = {"layout problems)"};
+        section_2.setTopIdentifiers(topIdentifiers_2);
         section_2.setTopIncluded(false);
         String[] bottomIdentifiers_2 = {"Table 11:"};
         section_2.setBottomIdentifiers(bottomIdentifiers_2);

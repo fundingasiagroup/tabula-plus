@@ -105,11 +105,11 @@ public class PdfParser {
      * @return
      */
     private NormalizedTable extractData(PDDocument document, ObjectExtractor oe, PdfSection section) {
-        String top = section.getTopIdentifier();
+        String[] tops = section.getTopIdentifiers();
         String left = section.getLeftIdentifier();
         String[] bottoms = section.getBottomIdentifiers();
         String right = section.getRightIdentifier();
-        if (top != null || left != null || bottoms != null || right != null) {
+        if (tops != null || left != null || bottoms != null || right != null) {
             // get page areas that the current section is on
             PdfSectionLocator sectionLocator = new PdfSectionLocator(oe, section);
             List<Page> pages = null;

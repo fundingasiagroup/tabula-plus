@@ -18,7 +18,7 @@ public class PdfSection {
     public static final int VERTICAL_TABLE = 1;
 
     private String sectionName;
-    private String topIdentifier;
+    private String[] topIdentifiers;
     private String[] bottomIdentifiers;
     private String leftIdentifier;
     private String rightIdentifier;
@@ -60,11 +60,11 @@ public class PdfSection {
     }
 
     public PdfSection(String sectionName,
-                      String top, String left, String[] bottoms, String right,
+                      String[] tops, String left, String[] bottoms, String right,
                       boolean topIncluded, boolean leftIncluded, boolean bottomIncluded, boolean rightIncluded,
                       float topMargin, float bottomMargin, Integer tableType, List<PdfSection> children) {
         this.sectionName = sectionName;
-        this.topIdentifier = top;
+        this.topIdentifiers = tops;
         this.bottomIdentifiers = bottoms;
         this.leftIdentifier = left;
         this.rightIdentifier = right;
@@ -87,12 +87,12 @@ public class PdfSection {
         return sectionName;
     }
 
-    public String getTopIdentifier() {
-        return topIdentifier;
+    public String[] getTopIdentifiers() {
+        return topIdentifiers;
     }
 
-    public void setTopIdentifier(String topId) {
-        this.topIdentifier = topId;
+    public void setTopIdentifiers(String[] topIds) {
+        this.topIdentifiers = topIds;
     }
 
     public String[] getBottomIdentifiers() {
@@ -190,7 +190,7 @@ public class PdfSection {
                 String.join("|", Arrays.stream(bottomIdentifiers).filter(item -> item != null).collect(Collectors.toList()));
         return "{" +
                 "\"name\":\"" + sectionName + '"' +
-                ",\"top\":\"" + topIdentifier + '"' +
+                ",\"top\":\"" + topIdentifiers + '"' +
                 ",\"left\":\"" + leftIdentifier + '"' +
                 ",\"bottom\":\"" + bottomIdentifiersStr + '"' +
                 ",\"right\":\"" + rightIdentifier + '"' +
