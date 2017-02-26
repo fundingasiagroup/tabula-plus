@@ -3,7 +3,7 @@
 tabula-plus is a library that let tabular data from PDF files be extracted in a simple way. It is written on top of [tabula-java](https://github.com/tabulapdf/tabula-java), which is also a tool to extract tables from PDF file.
 
 # How tabula-plus works
-To be able to extract a table from a PDF file with tabula-plus, a top identifier and a bottom identifier need to be defined whereas the left identifier and the right identifier are optional. The top identifier can be thought of as a word or phrase that marks the start of the table in the PDF file. Similarly, the bottom identifier can be thought of as a word or phrase that marks the end of the table. After identifiers has been defined, data extraction can starts. The result returned will be a two dimensional array that contains data from the table.
+To be able to extract a table from a PDF file with tabula-plus, a top identifier and a bottom identifier need to be defined whereas the left identifier and the right identifier are optional. The top identifier can be thought of as a word or phrase that marks the start of the table in the PDF file. Similarly, the bottom identifier can be thought of as a word or phrase that marks the end of the table. After identifiers has been defined, data extraction can start. The result returned will be a two dimensional array that contains data from the table.
 
 This approach make it easier for developers to indicate which table they are interested in. With [tabula-java](https://github.com/tabulapdf/tabula-java), developers need to define the area of the interested table, which is not going to be apparent. 
 
