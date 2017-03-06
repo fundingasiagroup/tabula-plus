@@ -1,4 +1,4 @@
-package com.fs.example;
+package com.fs.example_1;
 
 import com.fs.tabulaplus.NormalizedTable;
 import com.fs.tabulaplus.PdfParser;
@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * Created by thomas_nguyen on 2/23/17.
  */
-public class ExamplePDFParser
+public class Example1PDFParser
 {
     public static void main(String[] args) throws IOException, CryptographyException
     {
