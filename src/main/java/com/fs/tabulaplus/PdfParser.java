@@ -56,16 +56,6 @@ public class PdfParser {
     private PdfSection rootPdfSection;
 
     /**
-     * An ObjectMapper is needed to parse the schema file, which is in YAML format
-     */
-    private static final ObjectMapper om = new ObjectMapper();
-
-    /**
-     * List of functions that are used to correct data of sections
-     */
-    protected Map<String, Function<NormalizedTable, List<List<String>>>> transformFuncs;
-
-    /**
      * Constructor
      * @throws IOException
      */
