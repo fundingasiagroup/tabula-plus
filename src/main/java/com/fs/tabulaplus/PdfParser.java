@@ -187,7 +187,7 @@ public class PdfParser {
 
         for (PdfSection subSection : section.getChildSections())
         {
-            NormalizedTable table = extractDataForOneSection(document, oe, section);
+            NormalizedTable table = extractDataForOneSection(document, oe, subSection);
             mapResult.put(subSection.getNameWithoutSpaces(), table);
         }
 
