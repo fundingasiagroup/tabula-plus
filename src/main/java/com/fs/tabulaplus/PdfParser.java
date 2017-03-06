@@ -37,6 +37,11 @@ public class PdfParser {
     private PdfSection[] pdfSections;
 
     /**
+     *
+     */
+    private PdfSchemaReader schemaReader;
+
+    /**
      * Constructor
      * @throws IOException
      */
