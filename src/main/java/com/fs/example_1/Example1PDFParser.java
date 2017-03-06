@@ -6,6 +6,8 @@ import com.fs.tabulaplus.PdfSection;
 import org.apache.pdfbox.exceptions.CryptographyException;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.Iterator;
 
 /**
  * Created by thomas_nguyen on 2/23/17.
@@ -31,12 +33,14 @@ public class Example1PDFParser
         PdfSection[] sections = {section_1, section_2};
         PdfParser pdfParser = new PdfParser(sections);
 
-        NormalizedTable[] tables = pdfParser.parse("sample-tables.pdf");
-        for (NormalizedTable table : tables)
-        {
-            System.out.println(table.getTableName());
-            System.out.println(table.toString());
+        Map<String, NormalizedTable> tableMap = pdfParser.parse("sample-tables.pdf");
+        Iterator it = tableMap.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            System.out.println(pair.getKey());
+            System.out.println(pair.getValue());
             System.out.println("\n");
+            it.remove(); // avoids a ConcurrentModificationException
         }
     }
 }

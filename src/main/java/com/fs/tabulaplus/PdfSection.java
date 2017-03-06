@@ -87,6 +87,10 @@ public class PdfSection {
         return sectionName;
     }
 
+    public String getNameWithoutSpaces() {
+        return sectionName.replace(' ', '_');
+    }
+
     public String getTopIdentifier() {
         return topIdentifier;
     }

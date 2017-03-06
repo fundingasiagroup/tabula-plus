@@ -7,11 +7,14 @@ import org.slf4j.LoggerFactory;
 import technology.tabula.ObjectExtractor;
 import technology.tabula.Page;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.function.Function;
 
 
 /**
@@ -37,9 +40,30 @@ public class PdfParser {
     private PdfSection[] pdfSections;
 
     /**
-     *
+     * A schema file is a file that defines the identifiers for sections in a PDF file
      */
     private PdfSchemaReader schemaReader;
+
+    /**
+     * True if a schema file is used for parsing PDF documents
+     * False otherwise, which means that sections are defined and add to the parser
+     */
+    private boolean parsedWithSchema;
+
+    /**
+     * rootPdfSection is only available when parsing with a schema file
+     */
+    private PdfSection rootPdfSection;
+
+    /**
+     * An ObjectMapper is needed to parse the schema file, which is in YAML format
+     */
+    private static final ObjectMapper om = new ObjectMapper();
+
+    /**
+     * List of functions that are used to correct data of sections
+     */
+    protected Map<String, Function<NormalizedTable, List<List<String>>>> transformFuncs;
 
     /**
      * Constructor
@@ -47,6 +71,14 @@ public class PdfParser {
      */
     public PdfParser(PdfSection[] pdfSections) throws IOException {
         this.pdfSections = pdfSections;
+        this.parsedWithSchema = false;
+    }
+
+    public PdfParser(String schemaFile)
+    {
+        this.schemaReader = new PdfSchemaReader();
+        this.rootPdfSection = schemaReader.read(schemaFile);
+        this.parsedWithSchema = true;
     }
 
     /**
@@ -56,17 +88,17 @@ public class PdfParser {
      * @throws IOException
      * @throws CryptographyException
      */
-    public NormalizedTable[] parse(String pdfFile) throws IOException, CryptographyException {
+    public Map<String, NormalizedTable> parse(String pdfFile) throws IOException, CryptographyException {
         if (pdfFile.contains(".pdf"))
             return parse(new File(pdfFile));
         return null;
     }
 
-    public NormalizedTable[] parse(File pdfFile) throws IOException, CryptographyException {
+    public Map<String, NormalizedTable> parse(File pdfFile) throws IOException, CryptographyException {
         return parse(new FileInputStream(pdfFile));
     }
 
-    public NormalizedTable[] parse(InputStream pdfFile) throws IOException, CryptographyException {
+    public Map<String, NormalizedTable> parse(InputStream pdfFile) throws IOException, CryptographyException {
         PDDocument document = PDDocument.load(pdfFile);
         try {
             return parse(document);
@@ -76,40 +108,40 @@ public class PdfParser {
         }
     }
 
-    public NormalizedTable[] parse(PDDocument document) throws IOException, CryptographyException {
+    public Map<String, NormalizedTable> parse(PDDocument document) throws IOException, CryptographyException {
         if (document.isEncrypted()) {
             document.decrypt("");
         }
         ObjectExtractor oe = new ObjectExtractor(document);
-        List<NormalizedTable> tables = new ArrayList<>();
-        for (PdfSection section : this.pdfSections)
+        if (this.parsedWithSchema)
         {
-            try {
-                NormalizedTable resultTable = extractData(document, oe, section);
-                tables.add(resultTable);
-            } catch (Exception e) {
-                logger.info("Exception: ", e);
+            Map<String, NormalizedTable> resultMap = extractDataForSectionAndSubSections(document, oe,
+                    this.rootPdfSection);
+            document.close();
+            oe.close();
+            return resultMap;
+        }
+        else
+        {
+            Map<String, NormalizedTable> resultMap = new LinkedHashMap<>();
+            for (PdfSection section : this.pdfSections) {
+                NormalizedTable resultTable = extractDataForOneSection(document, oe, section);
+                resultMap.put(section.getNameWithoutSpaces(), resultTable);
             }
+            document.close();
+            oe.close();
+            return resultMap;
         }
-        document.close();
-        oe.close();
-
-        NormalizedTable[] normalizedTables = new NormalizedTable[tables.size()];
-        for (int i=0; i<tables.size(); i++)
-        {
-            normalizedTables[i] = tables.get(i);
-        }
-        return normalizedTables;
     }
 
     /**
-     * This is a recursive function that extracts all information from the current section and all its child sections
+     * Extract data for a section
      * @param document
      * @param oe
      * @param section
      * @return
      */
-    private NormalizedTable extractData(PDDocument document, ObjectExtractor oe, PdfSection section) {
+    private NormalizedTable extractDataForOneSection(PDDocument document, ObjectExtractor oe, PdfSection section) {
         String top = section.getTopIdentifier();
         String left = section.getLeftIdentifier();
         String[] bottoms = section.getBottomIdentifiers();
@@ -121,7 +153,7 @@ public class PdfParser {
             try {
                 pages = sectionLocator.locateSection(document, oe.extract(1));
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                logger.error("Exception: ", e);
             } catch (Exception e) { // catch all other exceptions
                 logger.error("Exception: ", e);
             }
@@ -144,5 +176,21 @@ public class PdfParser {
             logger.info(section.getName() + " does not exist!");
             return new NormalizedTable();
         }
+    }
+
+    /**
+     * Extract data for a section and all sub-sections
+     */
+    private Map<String, NormalizedTable> extractDataForSectionAndSubSections(PDDocument document, ObjectExtractor oe,
+                                                                             PdfSection section) {
+        Map<String, NormalizedTable> mapResult = new LinkedHashMap<>();
+
+        for (PdfSection subSection : section.getChildSections())
+        {
+            NormalizedTable table = extractDataForOneSection(document, oe, section);
+            mapResult.put(subSection.getNameWithoutSpaces(), table);
+        }
+
+        return mapResult;
     }
 }
