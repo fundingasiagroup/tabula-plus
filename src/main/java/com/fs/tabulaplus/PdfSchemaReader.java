@@ -70,7 +70,8 @@ public class PdfSchemaReader {
             tableType = type.asInt();
         }
 
-        // there might be multiple bottom identifiers, so we need a special treatment for bottom text
+        // there might be multiple top and bottom identifiers, so we need a special treatment for top and bottom text
+        String topText = getPdfNodeIdentifier("top", jsonNode);
         String bottomText = getPdfNodeIdentifier("bottom", jsonNode);
 
         // process customized top margin and bottom margin
@@ -85,7 +86,7 @@ public class PdfSchemaReader {
         catch (NullPointerException e) {}
 
         return new PdfSection(sectionName,
-                getPdfNodeIdentifier("top", jsonNode), getPdfNodeIdentifier("left", jsonNode),
+                topText == null ? null : topText.split("\\|"), getPdfNodeIdentifier("left", jsonNode),
                 bottomText == null ? null : bottomText.split("\\|"), getPdfNodeIdentifier("right", jsonNode),
                 isIdentifierIncluded("top", jsonNode), isIdentifierIncluded("left", jsonNode),
                 isIdentifierIncluded("bottom", jsonNode), isIdentifierIncluded("right", jsonNode),

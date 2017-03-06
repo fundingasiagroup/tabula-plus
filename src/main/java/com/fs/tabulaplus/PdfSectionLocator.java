@@ -100,7 +100,7 @@ public class PdfSectionLocator {
             {
                 this.actualStartPageNumber++;
             }
-            if ((pdfSection.getTopIdentifier() == null || topPosition != null) && (bottomPosition == null))
+            if ((pdfSection.getTopIdentifiers() == null || topPosition != null) && (bottomPosition == null))
             {
                 numOfPageTurns++;
             }
@@ -123,12 +123,14 @@ public class PdfSectionLocator {
             }
 
             // determine the top boundary
-            if (pdfSection.getTopIdentifier() != null && topPosition == null)
+            if (pdfSection.getTopIdentifiers() != null && topPosition == null)
             {
-                if (text.equals(pdfSection.getTopIdentifier()) || text.startsWith(pdfSection.getTopIdentifier())
-                        || text.endsWith(pdfSection.getTopIdentifier()))
+                for (String topText : pdfSection.getTopIdentifiers())
                 {
-                    topPosition = textPositions.get(0);
+                    if (text.equals(topText) || text.startsWith(topText) || text.endsWith(topText))
+                    {
+                        topPosition = textPositions.get(0);
+                    }
                 }
             }
 
@@ -144,7 +146,7 @@ public class PdfSectionLocator {
             }
 
             // determine the bottom boundary
-            if ((pdfSection.getTopIdentifier() == null || topPosition != null) && pdfSection.getBottomIdentifiers() != null
+            if ((pdfSection.getTopIdentifiers() == null || topPosition != null) && pdfSection.getBottomIdentifiers() != null
                     && bottomPosition == null)
             {
                 for (String bottomText : pdfSection.getBottomIdentifiers())
