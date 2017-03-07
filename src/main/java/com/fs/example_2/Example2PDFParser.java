@@ -16,7 +16,7 @@ public class Example2PDFParser
 {
     public static void main(String[] args) throws IOException, CryptographyException
     {
-        PdfParser pdfParser = new PdfParser("/Users/thomas_nguyen/workplace/tabula-plus/example_2.schema");
+        PdfParser pdfParser = new PdfParser("example_2.schema");
         Map<String, NormalizedTable> tableMap = pdfParser.parse("sample-tables.pdf");
         Iterator it = tableMap.entrySet().iterator();
         while (it.hasNext()) {
