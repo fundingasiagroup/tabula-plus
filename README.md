@@ -19,7 +19,7 @@ The sample code below extracts data for a table named *Table 7* from *sample-   
     section.setBottomIncluded(false);
     PdfSection[] sections = {section};
     PdfParser pdfParser = new PdfParser(sections);
-    NormalizedTable[] tables = pdfParser.parse("sample-tables.pdf")
+    Map<String, NormalizedTable> tableMap = pdfParser.parse("sample-tables.pdf");
 
 In the code snippet above, the top identifiers and the bottom identifiers are defined as lists, which means that there might be multiple top identifiers and bottom identifiers. This makes sense when multiple PDF files need to do extraction for a table, but there are differences in the top identifiers and the bottom identifiers for that table in different PDF files. In that case, the table is detected as soon as any top identifier is encountered and the table is ended as soon as any bottom identifier is encountered.
 
