@@ -7,14 +7,11 @@ import org.slf4j.LoggerFactory;
 import technology.tabula.ObjectExtractor;
 import technology.tabula.Page;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
-import java.util.function.Function;
 
 
 /**
