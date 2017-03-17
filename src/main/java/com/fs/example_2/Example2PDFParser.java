@@ -22,7 +22,8 @@ public class Example2PDFParser
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
             System.out.println(pair.getKey());
-            System.out.println(pair.getValue());
+            NormalizedTable table = (NormalizedTable) pair.getValue();
+            System.out.println(table.toTabularString());
             System.out.println("\n");
 
             it.remove(); // avoids a ConcurrentModificationException

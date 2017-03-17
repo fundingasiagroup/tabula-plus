@@ -95,6 +95,16 @@ public class NormalizedTable {
         return resultString;
     }
 
+    public String toTabularString()
+    {
+        String resultString = "";
+        for (NormalizedRow row : this.rows)
+        {
+            resultString += ('\n' + row.toTabularString());
+        }
+        return resultString;
+    }
+
     public void setTableName(String tableName)
     {
         this.tableName = tableName;

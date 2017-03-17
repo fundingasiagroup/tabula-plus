@@ -40,7 +40,7 @@ public class NormalizedRow {
             formatedTexts.add(trimOrPadStringToFixedLength(text, STANDARDISED_LENGTH));
         }
 
-        return String.format("NormalizedRow[%s]", String.join("|", formatedTexts));
+        return String.format("%s", String.join("|", formatedTexts));
     }
 
     public String toSimpleString() {
