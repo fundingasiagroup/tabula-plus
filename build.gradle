@@ -48,7 +48,7 @@ jar {
     // make jar executable: see http://stackoverflow.com/questions/21721119/creating-runnable-jar-with-gradle
     manifest {
         attributes (
-                 'Main-Class': 'com.fs.example.ExamplePDFParser',
+                 'Main-Class': 'com.fs.example1.Example1PDFParser',
                 // add classpath to Manifest; see http://stackoverflow.com/questions/30087427/add-classpath-in-manifest-file-of-jar-in-gradle
                 "Class-Path": '. dependency-jars/' + configurations.compile.collect { it.getName() }.join(' dependency-jars/')
         )
