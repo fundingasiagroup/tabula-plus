@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class NormalizedRow {
     public final List<String> texts;
-    public final int STANDARDISED_LENGTH = 30;
+    private final int STANDARDISED_LENGTH = 30;
 
     public NormalizedRow(List<String> texts) {
         this.texts = texts;

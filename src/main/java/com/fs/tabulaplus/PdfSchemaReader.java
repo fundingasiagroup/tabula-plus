@@ -78,12 +78,21 @@ public class PdfSchemaReader {
         String customTopMarginStr = getPdfNodeIdentifier("top_margin", jsonNode);
         String customBottomMarginStr = getPdfNodeIdentifier("bottom_margin", jsonNode);
         float customTopMargin = 0, customBottomMargin = 0;
-        try {
-            customTopMargin = Float.parseFloat(customTopMarginStr);
-            customBottomMargin = Float.parseFloat(customBottomMarginStr);
+        if (customTopMarginStr != null)
+        {
+            try {
+                customTopMargin = Float.parseFloat(customTopMarginStr);
+            }
+            catch (NumberFormatException e) {}
         }
-        catch (NumberFormatException e) {}
-        catch (NullPointerException e) {}
+
+        if (customBottomMarginStr != null)
+        {
+            try {
+                customBottomMargin = Float.parseFloat(customBottomMarginStr);
+            }
+            catch (NumberFormatException e) {}
+        }
 
         return new PdfSection(sectionName,
                 topText == null ? null : topText.split("\\|"), getPdfNodeIdentifier("left", jsonNode),

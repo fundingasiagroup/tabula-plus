@@ -21,8 +21,6 @@ import java.util.stream.Collectors;
  * Created by hailegia on 18/9/16.
  */
 public class NormalizedTable {
-    private Logger logger = LoggerFactory.getLogger(NormalizedTable.class);
-
     public static final int TEXT_ALGORITHM = 0;
     public static final int SPREADSHEET_ALGORITHM = 1;
     public static final int AUTO_ALGORITHM = 2;
