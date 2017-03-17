@@ -1,6 +1,8 @@
 Table_7:
   top: Table 7 | false
   bottom: Table 8 | false
+  left:
+  right:
 
 Table_10:
   top: layout problems) | self-contained year-end | false
