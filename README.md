@@ -58,10 +58,10 @@ This library requires a Java Runtime Environment compatible with Java 7 (i.e. Ja
 
  - Mac OS X, Linux
 	 - Go to the project directory, and build the project by running the command `./gradlew build`
-	 - Run the sample code with the command `./gradlew execute`
+	 - Run the sample code with the command `./gradlew run`
  - Windows
 	 - Go to the project directory, and build the project by running the command `./gradlew.bat build`
-	 - Run the sample code with the command `./gradlew.bat execute`
+	 - Run the sample code with the command `./gradlew.bat run`
 
 What the sample code does is that it defines identifiers for two tables named *Table 7* and *Table 10*, extracts data for these two tables and then prints out the result.
 
