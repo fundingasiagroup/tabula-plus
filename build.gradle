@@ -1,13 +1,13 @@
 apply plugin: 'java'
-apply plugin: 'maven'
+apply plugin: 'application'
 
 group = 'com.fs.tabulaplus'
 version = '1.1'
 
-description = """dateUtils"""
-
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
+
+mainClassName = "com.fs.example_1.Example1PDFParser"
 
 repositories {
     jcenter()
@@ -16,8 +16,8 @@ repositories {
         url "https://oss.sonatype.org/content/repositories/snapshots/"
     }
 }
+
 dependencies {
-    // https://mvnrepository.com/artifact/technology.tabula/tabula
     compile group: 'technology.tabula', name: 'tabula', version: '0.9.1'
 
     compile 'com.fasterxml.jackson.core:jackson-core:2.8.4'
@@ -26,34 +26,3 @@ dependencies {
 
     testCompile group: 'junit', name: 'junit', version: '4.+'
 }
-
-// copy dependency jars to build/libs/dependency-jars 
-task copyJarsToLib (type: Copy) {
-    def toDir = "build/libs/dependency-jars"
-
-    // create directories, if not already done:
-    file(toDir).mkdirs()
-
-    // copy jars to lib folder:
-    from configurations.compile
-    into toDir
-}
-
-task execute(type:JavaExec) {
-    main = 'com.fs.example.ExamplePDFParser'
-    classpath = sourceSets.main.runtimeClasspath
-}
-
-jar {
-    // make jar executable: see http://stackoverflow.com/questions/21721119/creating-runnable-jar-with-gradle
-    manifest {
-        attributes (
-                 'Main-Class': 'com.fs.example1.Example1PDFParser',
-                // add classpath to Manifest; see http://stackoverflow.com/questions/30087427/add-classpath-in-manifest-file-of-jar-in-gradle
-                "Class-Path": '. dependency-jars/' + configurations.compile.collect { it.getName() }.join(' dependency-jars/')
-        )
-    }
-}
-
-// always call copyJarsToLib when building jars:
-jar.dependsOn copyJarsToLib
